@@ -3,34 +3,13 @@ import { CanvasView } from "@game.object/ts-game-toolbox/dist/src/abstract/mvc/C
 import { RgbColor } from "@game.object/ts-game-toolbox/dist/src/data/RgbColor";
 import { ChainProperty } from "@game.object/ts-game-toolbox/dist/src/signals/ChainProperty";
 import { ViewCollection } from "../ViewCollection";
-import { Vector2, Vector2I } from "@game.object/ts-game-toolbox/dist/src/geometries/Vector2";
 
-interface ViewStarAttr {
-    position: Vector2I;
-    z: number;
-    size: number;
-    color: RgbColor;
-}
 
 export class MainView extends CanvasView<ViewCollection> {
-    /// Color of the "sky"
     public bg_color = new ChainProperty<this, RgbColor>(this, tools.commons.Colors.BLACK);
-    /// All stars on the screen
-    public stars = new ChainProperty<this, Array<ViewStarAttr>>(this, []);
 
     public draw(): void {
         this.reset_canvas_state();
-        this.stars.get().forEach((star) => {
-            /**
-             * Divide the position by `z` to create a sense of depth,
-             * when the stars approach the viewer. 
-             */
-            const real_position = new Vector2(star.position).mul(33 / (star.z)).add({ x: 400, y: 300 });
-            const size = star.size * 100 / star.z;
-            this.context.strokeStyle = star.color.to_hex();
-            this.context.fillStyle = star.color.to_hex();
-            this.context.fillRect(real_position.x - size / 2, real_position.y - size / 2, size, size);
-        });
     }
 
     /**
