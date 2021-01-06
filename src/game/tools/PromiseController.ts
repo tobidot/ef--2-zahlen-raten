@@ -9,8 +9,8 @@ export interface PromisableController {
     next: null | (() => ControllerRouteResponseType);
 }
 
-type PromisableControllerRouteResponseType = ControllerRouteResponseType & { controller: PromisableController };
-type PromisableControllerRouteResponse = null | ViewInterface | (EventControllerInterface & PromisableController) | ControllerEvent | PromisableControllerRouteResponseType;
+export type PromisableControllerRouteResponseType = ControllerRouteResponseType & { controller: PromisableController };
+export type PromisableControllerRouteResponse = null | ViewInterface | (EventControllerInterface & PromisableController) | ControllerEvent | PromisableControllerRouteResponseType;
 type PromiseResolver = () => PromisableControllerRouteResponseType;
 type NonPromiseResolver = () => (ControllerRouteResponseType);
 
@@ -61,16 +61,20 @@ export class PromiseController implements ControllerRouteResponseType {
         return this.response?.events;
     }
 
-    public then(resolve: PromiseResolver | PromisableControllerRouteResponseType): PromiseController {
+    public then(resolve: PromiseResolver | PromisableControllerRouteResponseType | PromiseController): PromiseController {
         if (this.next) {
             this.next.then(resolve);
         } else {
-            this.next = new PromiseController(resolve);
+            if (resolve instanceof PromiseController) {
+                this.next = resolve;
+            } else {
+                this.next = new PromiseController(resolve);
+            }
         }
         return this;
     }
 
-    public finaly(resolve: NonPromiseResolver | ControllerRouteResponseType): ControllerRouteResponseType {
+    public finaly(resolve: NonPromiseResolver | ControllerRouteResponseType): PromiseController {
         if (this.next) {
             this.next.finaly(resolve);
         } else {

@@ -13,6 +13,7 @@ export class TextView extends CanvasView<ViewCollection> {
     public fg_color = new ChainProperty<this, RgbColor>(this, tools.commons.Colors.WHITE);
     /// The Text on the screen
     public text = new ChainProperty<this, Array<string> | string>(this, "");
+    public continue_hint = new ChainProperty<this, string>(this, "Press Enter to continue =>");
 
     public draw(): void {
         this.reset_canvas_state();
@@ -21,12 +22,14 @@ export class TextView extends CanvasView<ViewCollection> {
             this.context.textAlign = "left";
             const lines = text.length;
             text.forEach((line, index) => {
-                this.context.fillText(line, 50, 300 - lines * 10 + index * 20);
+                this.context.fillText(line, 50, 300 - lines * 15 + index * 30);
             });
         } else {
             this.context.textAlign = "center";
             this.context.fillText(text, 400, 300);
         }
+        this.context.textAlign = "left";
+        this.context.fillText(this.continue_hint.get(), 550, 580);
     }
 
     /**
