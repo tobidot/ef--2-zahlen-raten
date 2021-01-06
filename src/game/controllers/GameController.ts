@@ -16,7 +16,7 @@ export class GameController extends BaseController {
         return new PromiseController(() => {
             return {
                 controller: this.controllers.for_event.text_page_controller,
-                view: this.views.text.text.set([
+                view: this.views.text.reset().text.set([
                     "In diesem Spiel musst du die Zahl,",
                     "die der Computer sich ausdenkt erraten.",
                     "Nach jedem Versuch gibt der Computer dir einen Tip,",
@@ -36,12 +36,15 @@ export class GameController extends BaseController {
             this.models.game.next_round();
             return {
                 controller: this.controllers.for_event.text_page_controller,
-                view: this.views.text.text.set("Ich habe mir eine neue Zahl ausgedacht, legen wir los."),
+                view: this.views.text.reset()
+                    .text.set("Ich habe mir eine neue Zahl ausgedacht, legen wir los."),
             }
         }).finaly(() => {
             return {
                 controller: this.controllers.for_event.game_controller,
-                view: this.views.text.text.set("Gib mir eine ziffer zwischen 0 und 9:"),
+                view: this.views.text.reset()
+                    .text.set("Gib mir eine ziffer zwischen 0 und 9:")
+                    .continue_hint.set("Tippe eine Ziffer =>"),
             }
         });
     }
@@ -50,7 +53,7 @@ export class GameController extends BaseController {
         return new PromiseController(() => {
             return {
                 controller: this.controllers.for_event.text_page_controller,
-                view: this.views.text.text.set("Du hast es erraten, gleich noch einmal."),
+                view: this.views.text.reset().text.set("Du hast es erraten, gleich noch einmal."),
             }
         }).then(
             this.next_round()

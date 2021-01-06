@@ -32,6 +32,14 @@ export class TextView extends CanvasView<ViewCollection> {
         this.context.fillText(this.continue_hint.get(), 550, 580);
     }
 
+    public reset(): this {
+        return this
+            .bg_color.set(tools.commons.Colors.BLACK)
+            .fg_color.set(tools.commons.Colors.WHITE)
+            .text.set('')
+            .continue_hint.set("Press Enter to continue =>")
+    }
+
     /**
      * Reset default canvas state and paint the background
      */

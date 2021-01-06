@@ -11,7 +11,7 @@ export class GameEventController extends BaseController implements EventControll
     }
 
     public key_pressed(event: KeyboardEvent): ControllerRouteResponse {
-        const number = event.key.charCodeAt(0) - 49;
+        const number = event.key.charCodeAt(0) - 48;
         if (number >= 0 && number <= 9) {
             return this.controllers.game_controller.player_guess(number);
         }
