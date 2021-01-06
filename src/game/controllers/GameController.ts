@@ -4,7 +4,7 @@ import {
 } from "@game.object/ts-game-toolbox/dist/src/abstract/mvc/ControllerRouteResponse";
 import { BaseController } from "./BaseController";
 import { RgbColor } from "@game.object/ts-game-toolbox/dist/src/data/RgbColor";
-import { PromisableController, PromisableControllerRouteResponseType, PromiseController } from "../tools/PromiseController";
+import { PromiseController } from "@game.object/ts-game-toolbox/dist/src/abstract/mvc/controllers/PromiseController";
 import { Comparison } from "../models/GameModel";
 
 export class GameController extends BaseController {
